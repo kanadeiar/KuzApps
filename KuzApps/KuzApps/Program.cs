@@ -2,6 +2,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.ConfigureServices(services =>
 {
+    services.RegisterMyDatabase(builder.Configuration);
+    services.RegisterMyTestData();
+    services.RegisterMyAccount();
+
     services.AddControllersWithViews();
     services.AddRazorPages();
     services.AddServerSideBlazor();
@@ -31,5 +35,7 @@ app.MapDefaultControllerRoute();
 app.MapRazorPages();
 app.MapBlazorHub();
 app.MapFallbackToPage("online/{param?}", "/Shared/_Host");
+
+app.MySeedTestData();
 
 app.Run();

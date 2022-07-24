@@ -1,0 +1,11 @@
+global using System;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using KuzApps.Domain.Account;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore;
+global using KuzApps.Infra.Data;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.AspNetCore.Identity;

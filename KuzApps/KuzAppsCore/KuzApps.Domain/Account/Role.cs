@@ -1,4 +1,4 @@
-namespace KuzApps.Domain.Identity;
+namespace KuzApps.Domain.Account;
 
 /// <summary>
 /// Роль пользователей
