@@ -1,22 +1,22 @@
 ﻿@inherits LayoutComponentBase
 
 <header class="sticky-top">
-    <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-dark bg-success border-bottom mb-4">
+    <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-dark bg-success border-bottom mb-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
                 <img src="favicon.png" alt="Бренд" width="30" height="30" class="d-inline-block align-text-top">
-                Цифровой журнал
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
+            <a class="navbar-brand" href="/">
+                Кузнецкие приложения
+            </a>
+            <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <_MainMenuPartial/>
+            <div class="navbar-collapse @NavMenuCssClass">
+                <_MainMenuPartial OnMenuClickCallback="@SelectedMenu"/>
 
                 <div class="d-flex">
-                    <a class="btn btn-outline-dark text-white me-1" href="/">
+                    <a class="btn btn-outline-dark text-white me-1" href="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Панель администратора сайта">
                         <i class="fa fa-arrow-left"></i>
                         Назад
                     </a>
@@ -25,3 +25,19 @@
         </div>
     </nav>
 </header>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    private void SelectedMenu()
+    {
+        collapseNavMenu = true;
+    }
+}
