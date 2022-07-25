@@ -1,5 +1,3 @@
-using KuzApps.Domain.Tools;
-
 namespace KuzApps.Controllers;
 
 [Authorize]
@@ -68,6 +66,10 @@ public class AccountController : Controller
     [AllowAnonymous]
     public IActionResult Login(string returnUrl)
     {
+        if (returnUrl.StartsWith("/Account"))
+        {
+            returnUrl = "/";
+        }
         return View(new AccountLoginWebModel { ReturnUrl = returnUrl });
     }
     [HttpPost, ValidateAntiForgeryToken, AllowAnonymous]
@@ -87,7 +89,7 @@ public class AccountController : Controller
     public async Task<IActionResult> Logout(string returnUrl)
     {
         await _signInManager.SignOutAsync();
-        if (returnUrl.StartsWith("Account"))
+        if (returnUrl.StartsWith("/Account"))
         {
             returnUrl = "/";
         }
@@ -99,4 +101,15 @@ public class AccountController : Controller
     {
         return View();
     }
+
+    #region WebAPI
+
+    [AllowAnonymous]
+    public async Task<IActionResult> IsNameFree(string UserName)
+    {
+        var user = await _userManager.FindByNameAsync(UserName);
+        return Json(user is null ? "true" : "Такой логин уже занят другим пользователем");
+    }
+
+    #endregion
 }

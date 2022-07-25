@@ -31,6 +31,7 @@ public class AccountRegisterWebModel
 
     [Required(ErrorMessage = "Нужно обязательно ввести логин пользователя")]
     [Display(Name = "Логин пользователя")]
+    [Remote("IsNameFree", "Account")]
     public string UserName { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Нужно обязательно придумать и ввести какой-либо пароль")]

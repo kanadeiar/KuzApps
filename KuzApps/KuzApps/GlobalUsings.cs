@@ -8,3 +8,4 @@ global using Microsoft.AspNetCore.Identity;
 global using KuzApps.Registrations;
 global using Microsoft.AspNetCore.Authorization;
 global using KuzApps.Application.WebModels;
+global using KuzApps.Domain.Tools;
