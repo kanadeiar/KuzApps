@@ -29,6 +29,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseStatusCodePagesWithRedirects("~/home/error/{0}");
 
 app.MapDefaultControllerRoute();

@@ -2,23 +2,19 @@
     <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-dark bg-success border-bottom mb-4">
         <div class="container-lg">
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                <img src="~/favicon.png" alt="Бренд приложения" width="30" height="30" class="d-inline-block align-text-top">
+                <img src="~/favicon.png" alt="Бренд приложения" width="30" height="30"
+                    class="d-inline-block align-text-top">
                 Кузнецкие приложения
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <partial name="Partial/_MainMenuPartial" />
 
-                <div class="d-flex">
-                    <a class="btn btn-outline-dark text-white me-1" href="/online" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Панель администратора сайта">
-                        <i class="fa fa-mouse-pointer"></i>
-                        Админка
-                    </a>
-                </div>
+                <vc:user-info />
             </div>
         </div>
     </nav>

@@ -6,3 +6,5 @@ global using KuzApps.Infra.Registrations;
 global using Microsoft.AspNetCore.Authentication.Cookies;
 global using Microsoft.AspNetCore.Identity;
 global using KuzApps.Registrations;
+global using Microsoft.AspNetCore.Authorization;
+global using KuzApps.Application.WebModels;
