@@ -3,27 +3,19 @@ namespace KuzApps.Controllers;
 [Authorize]
 public class AccountController : Controller
 {
-    private readonly UserManager<User> _userManager;
-    private readonly RoleManager<Role> _roleManager;
-    private readonly SignInManager<User> _signInManager;
+    private readonly IAccountService _accountService;
 
-    public AccountController(UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager)
+    public AccountController(IAccountService accountService)
     {
-        _userManager = userManager;
-        _roleManager = roleManager;
-        _signInManager = signInManager;
+        _accountService = accountService;
     }
 
     [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
-        var model = new AccountIndexWebModel();
-        if (User.Identity is { } && User.Identity.IsAuthenticated)
-        {
-            model.User = await _userManager.FindByNameAsync(User.Identity.Name);
-            var roles = await _userManager.GetRolesAsync(model.User);
-            model.UserRoleNames = _roleManager.Roles.Where(r => roles.Contains(r.Name)).Select(r => r.Description);
-        }
+        var model = (User.Identity!.IsAuthenticated)
+            ? await _accountService.GetIndexData(User.Identity.Name)
+            : new AccountIndexWebModel();
         return View(model);
     }
 
@@ -39,23 +31,11 @@ public class AccountController : Controller
         {
             return View(model);
         }
-        var user = new User
+        var (result, errors) = await _accountService.RequestRegisterUser(model);
+        if (result)
         {
-            SurName = model.SurName,
-            FirstName = model.FirstName,
-            Patronymic = model.Patronymic,
-            UserName = model.UserName,
-            Email = model.Email,
-            Birthday = model.Birthday,
-        };
-        var result = await _userManager.CreateAsync(user, model.Password);
-        if (result.Succeeded)
-        {
-            await _userManager.AddToRoleAsync(user, "guest");
-            await _signInManager.SignInAsync(user, false);
             return RedirectToAction("Index", "Home");
         }
-        var errors = result.Errors.Select(e => IdentityErrorCodes.GetDescription(e.Code)).ToArray();
         foreach (var error in errors)
         {
             ModelState.AddModelError("", error);
@@ -77,8 +57,8 @@ public class AccountController : Controller
     {
         if (!ModelState.IsValid)
             return View(model);
-        var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
-        if (result.Succeeded)
+        var result = await _accountService.LoginPasswordSignIn(model);
+        if (result)
         {
             return LocalRedirect(model.ReturnUrl ?? "/");
         }
@@ -88,17 +68,9 @@ public class AccountController : Controller
 
     public async Task<IActionResult> Edit()
     {
-        if (User.Identity is { } &&
-            await _userManager.FindByNameAsync(User.Identity.Name) is User user)
+        var result = await _accountService.GetEditData(User.Identity!.Name);
+        if (result is { } model)
         {
-            var model = new AccountEditWebModel
-            {
-                SurName = user.SurName,
-                FirstName = user.FirstName,
-                Patronymic = user.Patronymic,
-                Email = user.Email,
-                Birthday = user.Birthday,
-            };
             return View(model);
         }
         return NotFound();
@@ -110,25 +82,16 @@ public class AccountController : Controller
         {
             return View(model);
         }
-        if (await _userManager.FindByNameAsync(User.Identity!.Name) is User user)
+        var (result, errors) = await _accountService.RequestUpdateUser(User.Identity!.Name, model);
+        if (result)
         {
-            user.SurName = model.SurName;
-            user.FirstName = model.FirstName;
-            user.Patronymic = model.Patronymic;
-            user.Email = model.Email;
-            user.Birthday = model.Birthday;
-            var result = await _userManager.UpdateAsync(user);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Index", "Account");
-            }
-            var errors = result.Errors.Select(e => IdentityErrorCodes.GetDescription(e.Code)).ToArray();
-            foreach (var error in errors)
-            {
-                ModelState.AddModelError("", error);
-            }
+            return RedirectToAction("Index", "Account");
         }
-        return View();
+        foreach (var error in errors)
+        {
+            ModelState.AddModelError("", error);
+        }
+        return View(model);
     }
 
     public IActionResult Password()
@@ -142,29 +105,21 @@ public class AccountController : Controller
         {
             return View(model);
         }
-        var user = await _userManager.FindByNameAsync(User.Identity!.Name);
-        var result = await _signInManager.CheckPasswordSignInAsync(user, model.OldPassword, false);
-        if (result.Succeeded)
+        var (result, errors) = await _accountService.ChangeUserPassword(User.Identity!.Name, model);
+        if (result)
         {
-            await _userManager.RemovePasswordAsync(user);
-            var result2 = await _userManager.AddPasswordAsync(user, model.Password);
-            if (result2.Succeeded)
-            {
-                return RedirectToAction("Index", "Account");
-            }
-            var errors = result2.Errors.Select(e => IdentityErrorCodes.GetDescription(e.Code)).ToArray();
-            foreach (var error in errors)
-            {
-                ModelState.AddModelError("", error);
-            }
+            return RedirectToAction("Index", "Account");
         }
-        ModelState.AddModelError("", "Неправильный старый пароль");
+        foreach (var error in errors)
+        {
+            ModelState.AddModelError("", error);
+        }
         return View(model);
     }
 
     public async Task<IActionResult> Logout(string returnUrl)
     {
-        await _signInManager.SignOutAsync();
+        await _accountService.SignOut();
         if (returnUrl.StartsWith("/Account"))
         {
             returnUrl = "/";
@@ -183,8 +138,8 @@ public class AccountController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> IsNameFree(string UserName)
     {
-        var user = await _userManager.FindByNameAsync(UserName);
-        return Json(user is null ? "true" : "Такой логин уже занят другим пользователем");
+        var result = await _accountService.UserNameIsFree(UserName);
+        return Json(result ? "true" : "Такой логин уже занят другим пользователем");
     }
 
     #endregion

@@ -1,4 +1,4 @@
-namespace KuzApps.Application.WebModels;
+namespace KuzApps.WebModels;
 
 /// <summary> 
 /// Веб модель входа в систему 

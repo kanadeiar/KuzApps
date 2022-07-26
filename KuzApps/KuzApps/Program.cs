@@ -6,6 +6,8 @@ builder.Host.ConfigureServices(services =>
     services.RegisterMyTestData();
     services.RegisterMyAccount();
 
+    services.AddScoped<IAccountService, AccountService>();
+
     services.AddControllersWithViews();
     services.AddRazorPages();
     services.AddServerSideBlazor();
