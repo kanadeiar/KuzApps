@@ -86,6 +86,82 @@ public class AccountController : Controller
         return View();
     }
 
+    public async Task<IActionResult> Edit()
+    {
+        if (User.Identity is { } &&
+            await _userManager.FindByNameAsync(User.Identity.Name) is User user)
+        {
+            var model = new AccountEditWebModel
+            {
+                SurName = user.SurName,
+                FirstName = user.FirstName,
+                Patronymic = user.Patronymic,
+                Email = user.Email,
+                Birthday = user.Birthday,
+            };
+            return View(model);
+        }
+        return NotFound();
+    }
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(AccountEditWebModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        if (await _userManager.FindByNameAsync(User.Identity!.Name) is User user)
+        {
+            user.SurName = model.SurName;
+            user.FirstName = model.FirstName;
+            user.Patronymic = model.Patronymic;
+            user.Email = model.Email;
+            user.Birthday = model.Birthday;
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+            var errors = result.Errors.Select(e => IdentityErrorCodes.GetDescription(e.Code)).ToArray();
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+        return View();
+    }
+
+    public IActionResult Password()
+    {
+        return View(new AccountPasswordWebModel());
+    }
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Password(AccountPasswordWebModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        var user = await _userManager.FindByNameAsync(User.Identity!.Name);
+        var result = await _signInManager.CheckPasswordSignInAsync(user, model.OldPassword, false);
+        if (result.Succeeded)
+        {
+            await _userManager.RemovePasswordAsync(user);
+            var result2 = await _userManager.AddPasswordAsync(user, model.Password);
+            if (result2.Succeeded)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+            var errors = result2.Errors.Select(e => IdentityErrorCodes.GetDescription(e.Code)).ToArray();
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+        ModelState.AddModelError("", "Неправильный старый пароль");
+        return View(model);
+    }
+
     public async Task<IActionResult> Logout(string returnUrl)
     {
         await _signInManager.SignOutAsync();
