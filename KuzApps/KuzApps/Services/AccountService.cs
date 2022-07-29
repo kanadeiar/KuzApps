@@ -42,7 +42,7 @@ public class AccountService : IAccountService
         var result = await _userManager.CreateAsync(user, model.Password);
         if (result.Succeeded)
         {
-            await _userManager.AddToRoleAsync(user, "guest");
+            await _userManager.AddToRoleAsync(user, "guests");
             await _signInManager.SignInAsync(user, false);
             return (true, Array.Empty<string>());
         }
