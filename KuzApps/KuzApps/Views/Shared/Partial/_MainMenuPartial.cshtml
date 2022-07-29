@@ -2,21 +2,24 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownInfo" role="button"
            data-bs-toggle="dropdown" aria-expanded="false">
-            Информация
+            Программирование
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdownInfo">
             <li>
-                <a asp-controller="Home" asp-action="Index" class="dropdown-item">Общая</a>
+                <a asp-controller="news" asp-action="index" class="dropdown-item">Новости</a>
             </li>
             <li>
-                <a asp-controller="Home" asp-action="Index" class="dropdown-item">Первая категория</a>
-            </li>
-            <li>
-                <a asp-controller="Home" asp-action="Index" class="dropdown-item">Вторая категория</a>
+                <a asp-controller="sharp" asp-action="index" class="dropdown-item">.NET и C#</a>
             </li>
         </ul>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" asp-controller="Home" asp-action="About">О сайте</a>
+        <a class="nav-link active" asp-controller="Apps" asp-action="Index">Приложения</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" asp-controller="Books" asp-action="Index">Книги</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" asp-controller="Home" asp-action="About">О нас</a>
     </li>
 </ul>
