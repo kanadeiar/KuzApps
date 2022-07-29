@@ -122,30 +122,18 @@ public class AccountService : IAccountService
                         return (true, Array.Empty<string>());
                     }
                     else
-                    {
                         foreach (var error in resultAdd.Errors)
-                        {
                             errors.Add(IdentityErrorCodes.GetDescription(error.Code));
-                        }
-                    }
                 }
                 else
-                {
                     foreach (var error in resultRemove.Errors)
-                    {
                         errors.Add(IdentityErrorCodes.GetDescription(error.Code));
-                    }
-                }
             }
             else
-            {
                 errors.Add("Неправильный старый пароль");
-            }
         }
         else
-        {
             errors.Add("Не удалось найти сущность в базе данных");
-        }
         return (false, errors.ToArray());
     }
 

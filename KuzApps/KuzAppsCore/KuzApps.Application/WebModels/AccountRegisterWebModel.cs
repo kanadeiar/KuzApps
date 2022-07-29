@@ -1,9 +1,9 @@
-namespace KuzApps.WebModels;
+namespace KuzApps.Application.WebModels;
 
 /// <summary>
-/// Веб модель редактирования пользователя
+/// Веб модель регистраци пользователя
 /// </summary>
-public class AccountEditWebModel
+public class AccountRegisterWebModel
 {
     [Required(ErrorMessage = "Фамилия обязательна для пользователя")]
     [StringLength(200, MinimumLength = 3, ErrorMessage = "Фамилия должна быть длинной от 3 до 200 символов")]
@@ -28,4 +28,20 @@ public class AccountEditWebModel
     [Required(ErrorMessage = "Дата рождения обязательна для ввода")]
     [Display(Name = "День рождения пользователя")]
     public DateTime Birthday { get; set; } = DateTime.Today.AddYears(-18);
+
+    [Required(ErrorMessage = "Нужно обязательно ввести логин пользователя")]
+    [Display(Name = "Логин пользователя")]
+    [Remote("IsNameFree", "Account")]
+    public string UserName { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Нужно обязательно придумать и ввести какой-либо пароль")]
+    [Display(Name = "Пароль")]
+    [DataType(DataType.Password)]
+    public string Password { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Нужно обязательно ввести подтверждение пароля")]
+    [Display(Name = "Подтверждение пароля")]
+    [DataType(DataType.Password)]
+    [Compare(nameof(Password), ErrorMessage = "Пароли не совпадают")]
+    public string PasswordConfirm { get; set; } = string.Empty;
 }

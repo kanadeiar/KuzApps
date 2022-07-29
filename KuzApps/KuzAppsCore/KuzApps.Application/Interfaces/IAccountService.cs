@@ -1,4 +1,4 @@
-namespace KuzApps.Interfaces;
+namespace KuzApps.Application.Interfaces;
 
 public interface IAccountService
 {

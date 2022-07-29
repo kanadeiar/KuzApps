@@ -1,3 +1,5 @@
+using KuzApps.Application.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.ConfigureServices(services =>

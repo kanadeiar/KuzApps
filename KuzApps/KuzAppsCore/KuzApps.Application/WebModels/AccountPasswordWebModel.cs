@@ -1,4 +1,4 @@
-namespace KuzApps.WebModels;
+namespace KuzApps.Application.WebModels;
 
 /// <summary>
 /// Вебмодель смены пароля
