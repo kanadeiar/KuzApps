@@ -1,0 +1,29 @@
+﻿@model IEnumerable<CategoryWebModel>
+
+@foreach (var parent in Model)
+{
+    if (parent.Children.Count() > 0)
+    {
+        <h4 class="mb-0 mt-4"><strong>@parent.Name</strong></h4>
+        @foreach (var item in @parent.Posts)
+        {
+            <a asp-controller="Sharp" asp-action="Post" asp-route-id="@item.Id"><strong>@item.Title</strong></a>
+        }
+        @foreach (var child in parent.Children)
+        {
+            <h4 class="mb-0 mt-4 ms-4"><strong>@child.Name</strong></h4>
+            @foreach (var item in @child.Posts)
+            {
+                <a asp-controller="Sharp" asp-action="Post" asp-route-id="@item.Id"><strong>@item.Title</strong></a>
+            }
+        }
+    }
+    else
+    {
+        <h4 class="mb-0 mt-4"><strong>@parent.Name</strong></h4>
+        @foreach (var item in @parent.Posts)
+        {
+            <a asp-controller="Sharp" asp-action="Post" asp-route-id="@item.Id"><strong>@item.Title</strong></a>
+        }
+    }
+}

@@ -13,21 +13,7 @@
 
             <p>Общее по C# и платформе .NET.</p>
 
-            @foreach (var parent in Model)
-            {
-                if (parent.Children.Count() > 0)
-                {
-                    <h4><strong>@parent.Name</strong></h4>
-                    @foreach (var child in parent.Children)
-                    {
-                        <h4 class="ms-4"><strong>@child.Name</strong></h4>
-                    }
-                }
-                else
-                {
-                    <h4><strong>@parent.Name</strong></h4>
-                }
-            }
+            <partial name="Partial/TitlesPartial" model="Model" />
         </div>
     </div>
 </div>

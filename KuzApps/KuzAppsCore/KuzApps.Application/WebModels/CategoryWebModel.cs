@@ -25,4 +25,8 @@ public class CategoryWebModel
     /// Дети 
     /// </summary>
     public List<CategoryWebModel> Children { get; set; } = new List<CategoryWebModel>();
+    /// <summary>
+    /// Заголовки информационных постов
+    /// </summary>
+    public ICollection<PostTitleWebModel> Posts { get; set; } = new List<PostTitleWebModel>();
 }

@@ -1,6 +1,6 @@
-﻿@model IEnumerable<CategoryWebModel>
+﻿@model PostWebModel
 @{
-    ViewBag.Title = "Настольные приложения";
+    ViewBag.Title = @Model.Title;
 }
 
 <div class="row">
@@ -11,9 +11,8 @@
         <div class="border-1 bg-light shadow rounded-1 p-2">
             <h1>@ViewBag.Title</h1>
 
-            <p>Раздел информации по разработке настольных приложений.</p>
+            <p>@Html.Raw(Model.Body)</p>
 
-            <partial name="Partial/TitlesPartial" model="Model" />
         </div>
     </div>
 </div>

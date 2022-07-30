@@ -22,6 +22,7 @@ public class CategoryService : ICategoryService
             Id = p.Id,
             Name = p.Name,
             Order = p.Order,
+            Posts = p.Posts.Select(x => new PostTitleWebModel { Id = x.Id, Title = x.Title }).ToList(),
         }).ToList();
         foreach (var parentModel in patentsModels)
         {
@@ -36,7 +37,8 @@ public class CategoryService : ICategoryService
                     Name = child.Name,
                     Order = child.Order,
                     Parent = parentModel,
-                });
+                    Posts = child.Posts.Select(x => new PostTitleWebModel { Id = x.Id, Title = x.Title }).ToList(),
+                });;
             }
             parentModel.Children.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
         }
@@ -46,7 +48,8 @@ public class CategoryService : ICategoryService
         { 
             Id = x.Id,
             Name = x.Name,
-            Order = x.Order,            
+            Order = x.Order,
+            Posts = x.Posts.Select(x => new PostTitleWebModel { Id = x.Id, Title = x.Title }).ToList(),
         });
         return (patentsModels, selectedCategoryId);
     }

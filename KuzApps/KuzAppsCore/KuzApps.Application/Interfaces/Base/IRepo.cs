@@ -65,7 +65,7 @@ public interface IRepo<T, TKey> where T : IEntity<TKey>
     /// <param name="id">Идентификатор требуемого элемента</param>
     /// <param name="cancel">Признак отмены асинхронной операции</param>
     /// <returns></returns>
-    Task<T?> GetById(TKey id, CancellationToken cancel);
+    Task<T?> GetById(TKey id, CancellationToken cancel = default);
 
     /// <summary>
     /// Добавить элемент
