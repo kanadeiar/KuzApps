@@ -1,3 +1,5 @@
+using KuzApps.Application.Interfaces.Services;
+
 namespace KuzApps.Services;
 
 public class AccountService : IAccountService

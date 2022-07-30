@@ -1,4 +1,5 @@
-﻿global using KuzApps.Application.Interfaces;
+﻿global using KuzApps.Application.Interfaces.Services;
+global using KuzApps.Application.Services;
 global using KuzApps.Application.WebModels;
 global using KuzApps.Domain.Account;
 global using KuzApps.Infra.Data;

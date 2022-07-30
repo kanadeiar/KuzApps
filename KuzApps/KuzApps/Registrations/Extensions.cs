@@ -5,7 +5,7 @@ public static class Extensions
     /// <summary>
     /// Регистрация данных авторизации
     /// </summary>
-    public static IServiceCollection RegisterMyAccount(this IServiceCollection services)
+    public static IServiceCollection MyConfigAccount(this IServiceCollection services)
     {
         services.AddIdentity<User, Role>().AddEntityFrameworkStores<KuzAppsDbContext>();
         services.Configure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, options =>
@@ -40,5 +40,16 @@ public static class Extensions
         }
 
         return builder;
+    }
+
+    /// <summary>
+    /// Добавить сервисы в приложение
+    /// </summary>
+    public static IServiceCollection MyAddServices(this IServiceCollection services)
+    {
+        services.AddScoped<IAccountService, AccountService>();
+        services.AddScoped<ICategoryService, CategoryService>();
+
+        return services;
     }
 }

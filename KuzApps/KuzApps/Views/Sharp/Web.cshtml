@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CategoryWebModel>
+@{
+    ViewBag.Title = "Веб приложения";
+}
+
+<div class="row">
+    <div class="col-md-4 col-lg-3 mb-1">
+        <partial name="Partial/_LeftSidebarPartial" />
+    </div>
+    <div class="col-md-8 col-lg-9 mb-1">
+        <div class="border-1 bg-light shadow rounded-1 p-2">
+            <h1>@ViewBag.Title</h1>
+
+            <p>Раздел информации по разработке веб приложений.</p>
+
+            @foreach (var parent in Model)
+            {
+                if (parent.Children.Count() > 0)
+                {
+                    <h4><strong>@parent.Name</strong></h4>
+                    @foreach (var child in parent.Children)
+                    {
+                        <h4 class="ms-4"><strong>@child.Name</strong></h4>
+                    }
+                }
+                else
+                {
+                    <h4><strong>@parent.Name</strong></h4>
+                }
+            }
+        </div>
+    </div>
+</div>

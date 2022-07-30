@@ -1,14 +1,12 @@
-using KuzApps.Application.Interfaces;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.ConfigureServices(services =>
 {
-    services.RegisterMyDatabase(builder.Configuration);
-    services.RegisterMyTestData();
-    services.RegisterMyAccount();
-
-    services.AddScoped<IAccountService, AccountService>();
+    services.InfraMyDatabase(builder.Configuration);
+    services.InfraMyRepos();
+    services.InfraMyTestData();
+    services.MyConfigAccount();
+    services.MyAddServices();
 
     services.AddControllersWithViews();
     services.AddRazorPages();
