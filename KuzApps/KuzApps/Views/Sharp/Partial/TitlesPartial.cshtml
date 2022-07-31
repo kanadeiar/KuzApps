@@ -7,14 +7,18 @@
         <h4 class="mb-0 mt-4"><strong>@parent.Name</strong></h4>
         @foreach (var item in @parent.Posts)
         {
-            <a asp-controller="Sharp" asp-action="Post" asp-route-id="@item.Id"><strong>@item.Title</strong></a>
+            <a asp-controller="sharp" asp-action="post" asp-route-id="@item.Id">
+                <p><strong>@item.Title</strong></p>
+            </a>
         }
         @foreach (var child in parent.Children)
         {
             <h4 class="mb-0 mt-4 ms-4"><strong>@child.Name</strong></h4>
             @foreach (var item in @child.Posts)
             {
-                <a asp-controller="Sharp" asp-action="Post" asp-route-id="@item.Id"><strong>@item.Title</strong></a>
+                <a asp-controller="sharp" asp-action="post" asp-route-id="@item.Id">
+                    <p class="mb-0 ms-4"><strong>@item.Title</strong></p>
+                </a>
             }
         }
     }
@@ -23,7 +27,9 @@
         <h4 class="mb-0 mt-4"><strong>@parent.Name</strong></h4>
         @foreach (var item in @parent.Posts)
         {
-            <a asp-controller="Sharp" asp-action="Post" asp-route-id="@item.Id"><strong>@item.Title</strong></a>
+            <a asp-controller="sharp" asp-action="post" asp-route-id="@item.Id">
+                <p class="mb-0"><strong>@item.Title</strong></p>
+            </a>
         }
     }
 }
