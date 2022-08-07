@@ -1,39 +1,39 @@
-﻿namespace KuzApps.Domain.Post;
+namespace KuzApps.Domain.Post;
 
 /// <summary>
-/// Комментарий информационного поста
+/// Комментарий новостной заметки
 /// </summary>
-public class Comment : Entity
+public class NoteComment : KndEntity<int>
 {
     /// <summary>
-    /// Дата создания комментария к информационному посту
+    /// Дата комментария к новостной заметке
     /// </summary>
     public DateTimeOffset Date { get; set; } = DateTimeOffset.Now;
 
     /// <summary>
-    /// Запись к которой принадлежит комментарий
+    /// Новостная заметка, к которому принадлежит комментарий
     /// </summary>
     [Required]
-    public Post Post { get; set; } = null!;
+    public Note Note { get; set; } = default!;
 
     [Required(ErrorMessage = "Текст комментария обязателен для комментария")]
-    public string Text { get; set; } = null!;
+    public string Text { get; set; } = default!;
 
     [Required(ErrorMessage = "Автор комментария обязателен для комментария")]
-    public User User { get; set; } = null!;
+    public User User { get; set; } = default!;
 
     /// <summary>
     /// Родительский комментарий
     /// </summary>
-    public Comment? Parent { get; set; }
+    public NoteComment? Parent { get; set; }
 
     /// <summary>
     /// Список дочерних комментарие
     /// в</summary>
-    public ICollection<Comment> Childrens { get; set; } = new HashSet<Comment>();
+    public ICollection<NoteComment> Childrens { get; set; } = new HashSet<NoteComment>();
 
     /// <summary>
-    /// Признак удалённой записи
+    /// Признак удалённого комментария
     /// </summary>
     public bool IsDeleted { get; set; }
 

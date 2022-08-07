@@ -1,11 +1,13 @@
-﻿namespace KuzApps.Infra.Base;
+﻿using System.Runtime.CompilerServices;
+
+namespace KuzApps.Infra.Base;
 
 /// <summary>
 /// Базовый репозиторий элементов
 /// </summary>
 /// <typeparam name="T">Тип элементов, хранимых в репозитории</typeparam>
 /// <typeparam name="TKey">Тип первичного ключа</typeparam>
-public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
+public class DbRepo<T, TKey> : IKndRepo<T, TKey> where T : class, IKndEntity<TKey>
 {
     private readonly DbContext _db;
     private readonly ILogger<DbRepo<T, TKey>> _logger;
@@ -42,7 +44,7 @@ public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
         return result;
     }
 
-    public async IAsyncEnumerable<T> GetAllAsync(CancellationToken cancel = default)
+    public async IAsyncEnumerable<T> GetAllAsync([EnumeratorCancellation] CancellationToken cancel)
     {
         foreach (var item in Query
             .AsNoTracking())
@@ -53,7 +55,7 @@ public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
         }
     }
 
-    public async IAsyncEnumerable<T> GetSkipAsync(int skip, int count, CancellationToken cancel = default)
+    public async IAsyncEnumerable<T> GetSkipAsync(int skip, int count, [EnumeratorCancellation] CancellationToken cancel)
     {
         if (skip < 0)
             throw new ArgumentOutOfRangeException(nameof(skip), skip, "Число пропускаемых элементов должно быть больше, либо равно 0");
@@ -71,7 +73,7 @@ public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
         }
     }
 
-    public async Task<IPage<T>> GetPage(int pageNumber, int pageSize, CancellationToken cancel = default)
+    public async Task<IKndPage<T>> GetPage(int pageNumber, int pageSize, CancellationToken cancel)
     {
         if (pageNumber < 0)
             throw new ArgumentOutOfRangeException(nameof(pageNumber), pageNumber, "Номер страницы должен быть больше, либо равен 0");
@@ -105,6 +107,11 @@ public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
         if (saveChanges)
         {
             await _db.SaveChangesAsync();
+            _logger.LogInformation("Новый элемент успешно добавлен, ключ: {0}, изменения созранены в базу данных", entity.Id);
+        }
+        else
+        {
+            _logger.LogInformation("Новый элемент успешно добавлен, ключ: {0}", entity.Id);
         }
         return entity;
     }
@@ -117,6 +124,11 @@ public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
         if (saveChanges)
         {
             await _db.SaveChangesAsync();
+            _logger.LogInformation("Новые элементы успешно добавлены, количество: {0}, изменения сохранены в базу данных", items.Count());
+        }
+        else
+        {
+            _logger.LogInformation("Новые элементы успешно добавлены, количество: {0}", items.Count());
         }
     }
 
@@ -128,6 +140,11 @@ public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
         if (saveChanges)
         {
             await _db.SaveChangesAsync(cancel).ConfigureAwait(false);
+            _logger.LogInformation("Элемент успешно обновлен, ключ: {0}, изменения созранены в базу данных", entity.Id);
+        }
+        else
+        {
+            _logger.LogInformation("Элемент успешно обновлен, ключ: {0}", entity.Id);
         }
         return entity;
     }
@@ -137,7 +154,15 @@ public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
         if (items is null)
             throw new ArgumentNullException(nameof(items));
         _db.UpdateRange(items);
-        await _db.SaveChangesAsync(cancel).ConfigureAwait(false);
+        if (saveChanges)
+        {
+            await _db.SaveChangesAsync(cancel).ConfigureAwait(false);
+            _logger.LogInformation("Элементы успешно обновлены, количество: {0}, изменения сохранены в базу данных", items.Count());
+        }
+        else
+        {
+            _logger.LogInformation("Элементы успешно обновлены, количество: {0}", items.Count());
+        }
     }
 
     public async Task Delete(T entity, bool saveChanges = true, CancellationToken cancel = default)
@@ -148,6 +173,11 @@ public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
         if (saveChanges)
         {
             await _db.SaveChangesAsync().ConfigureAwait(false);
+            _logger.LogInformation("Элемент успешно удален, ключ: {0}, изменения созранены в базу данных", entity.Id);
+        }
+        else
+        {
+            _logger.LogInformation("Элемент успешно удален, ключ: {0}", entity.Id);
         }
     }
 
@@ -159,6 +189,11 @@ public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
         if (saveChanges)
         {
             await _db.SaveChangesAsync().ConfigureAwait(false);
+            _logger.LogInformation("Элементы успешно удалены, количество: {0}, изменения сохранены в базу данных", items.Count());
+        }
+        else
+        {
+            _logger.LogInformation("Элементы успешно удалены, количество: {0}", items.Count());
         }
     }
 
@@ -172,6 +207,11 @@ public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
             if (saveChanges)
             {
                 await _db.SaveChangesAsync();
+                _logger.LogInformation("Элемент успешно удален, ключ: {0}, изменения созранены в базу данных", id);
+            }
+            else
+            {
+                _logger.LogInformation("Элемент успешно удален, ключ: {0}", id);
             }
             return item;
         }
@@ -181,15 +221,9 @@ public class DbRepo<T, TKey> : IRepo<T, TKey> where T : class, IEntity<TKey>
     public async Task<int> Commit(CancellationToken cancel)
     {
         var count = await _db.SaveChangesAsync().ConfigureAwait(false);
+        _logger.LogInformation("Изменения сохранены в базу данных, количество: {0}", count);
         return count;
     }
 }
 
-/// <summary>
-/// Базовый репозиторий элементв с целочисленными идентификаторами
-/// </summary>
-/// <typeparam name="T">Тип элементов</typeparam>
-public class DbRepo<T> : DbRepo<T, int> where T : class, IEntity<int>
-{
-    public DbRepo(DbContext context, ILogger<DbRepo<T, int>> logger) : base(context, logger) { }
-}
+

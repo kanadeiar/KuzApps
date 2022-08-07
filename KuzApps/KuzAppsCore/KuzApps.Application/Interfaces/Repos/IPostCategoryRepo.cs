@@ -1,9 +1,9 @@
 ﻿namespace KuzApps.Application.Interfaces.Repos;
 
 /// <summary>
-/// Репозиторий категорий постов
+/// Репозиторий категорий информационных постов
 /// </summary>
-public interface ICategoryRepo : IRepo<Category>
+public interface IPostCategoryRepo : IKndRepo<PostCategory, int>
 {
     /// <summary>
     /// Получить элементы по указанному названию книги
@@ -11,5 +11,5 @@ public interface ICategoryRepo : IRepo<Category>
     /// <param name="bookName">Имя книги, которую требуется получить из репозитория</param>
     /// <param name="cancel">Признак отмены асинхронной операции</param>
     /// <returns>Сущности с указанным именем книги в случае её наличия</returns>
-    Task<IEnumerable<Category>> GetByBookName(string bookName, CancellationToken cancel = default);
+    Task<IEnumerable<PostCategory>> GetByBookName(string bookName, CancellationToken cancel = default);
 }

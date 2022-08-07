@@ -19,50 +19,50 @@ public class PostTestData
 
         logger.LogInformation("Начало заполнения тестовыми данными информационных постов ...");
 
-        var categoryCsharpClr = new Category
+        var categoryCsharpDotnet = new PostCategory
         {
             BookName = "csharpdotnet",
-            Name = "CLR C#",
+            Name = ".NET C#",
             Order = 1,
         };
-        var categoryCsharpTypes = new Category
+        var categoryCsharpTypes = new PostCategory
         {
             BookName = "csharpdotnet",
-            Name = "Типы C#",
+            Name = "Создание типов C#",
             Order = 2,
         };
-        var categoryCsharpDataTypes = new Category
+        var categoryCsharpDataTypes = new PostCategory
         {
             BookName = "csharpdotnet",
             Name = "Типы данных C#",
             Order = 3,
         };
-        var categoryCsharpMechanics = new Category
+        var categoryCsharpMechanics = new PostCategory
         {
             BookName = "csharpdotnet",
             Name = "Механизмы C#",
             Order = 4,
         };
-        var categoryCsharpThreads = new Category
+        var categoryCsharpThreads = new PostCategory
         {
             BookName = "csharpdotnet",
             Name = "Многопоточность C#",
             Order = 5,
         };
-        var categoryDesktopXaml = new Category
+        var categoryDesktopXaml = new PostCategory
         {
             BookName = "csharpdesktop",
             Name = "WPF и XAML",
             Order = 1,
         };
-        var categoryWebPlatform = new Category
+        var categoryWebPlatform = new PostCategory
         {
             BookName = "csharpweb",
             Name = "ASP.NET Core",
             Order = 1,
         };
-        context.Set<Category>().AddRange(categoryCsharpClr, categoryCsharpTypes, categoryCsharpDataTypes, categoryCsharpMechanics, categoryCsharpThreads);
-        context.Set<Category>().AddRange(categoryDesktopXaml, categoryWebPlatform);
+        context.Set<PostCategory>().AddRange(categoryCsharpDotnet, categoryCsharpTypes, categoryCsharpDataTypes, categoryCsharpMechanics, categoryCsharpThreads);
+        context.Set<PostCategory>().AddRange(categoryDesktopXaml, categoryWebPlatform);
         await context.SaveChangesAsync();
 
         var postIntro = new Post
@@ -104,7 +104,7 @@ public class PostTestData
 <p>Код, написанный и нацеленный на исполнение в среде .NET Core, является управляемым. Код, не выполняемый в среде .NET Core, является неуправляемым. Оба кода могут быть взяимосвязаны.</p>
 <p>Двоичные модули, .NET внутренне устроены совершенно отлично от неуправляемых (*.dll и *.exe). Они содержат не специфические, а независимые от платформы инструкции на промежуточном языке и метаданные типов. В отличие от старой платформы .NET Framework, в новой .NET Core всегда компилируются только файлы с расширением *.dll, в том числе и выполняемые.</p>
 ",
-            Category = categoryCsharpClr,
+            PostCategory = categoryCsharpDotnet,
             User = admin,
         };
         var postCoreRuntime = new Post
@@ -192,7 +192,7 @@ dotnet path\to\MyApp.dll
 <p>Код преобразует из одного вида в другой специальный JIT (точно в срок - jit on time)-компилятор среды CLR. При запуске экзешника исполняемого файла среда CLR активирует JIT компилятор и он уже преобразует код IL в машинный код, ориентированный на конктектную процессорную архитектуру, например x86, x64 или ARM. Программа как бы выполняется как собственный код, при это обеспечивается переносимость превдокода IL.</p>
 <p>JIT-компилятор хранит машинные команды в динамической памяти.</p>
 ",
-            Category = categoryCsharpClr,
+            PostCategory = categoryCsharpDotnet,
             User = admin,
         };
         var postClrDetails = new Post
@@ -245,7 +245,7 @@ internal sealed class Manager : Employee
 <img src={quote}../img/heap_7.png{quote} alt={quote}Куча 7{quote}>
 <p>Объекты Employee и Manager содержат указатели на объект-тип System.Type. А сам объект-тип System.Type является объектом и поэтому содержит указатель на самого себя. При своем запуске CLR сразу же создает специальный объект-тип для типа System.Type.</p>
 ",
-            Category = categoryCsharpClr,
+            PostCategory = categoryCsharpDotnet,
             User = admin,
         };
         var postCommands = new Post
@@ -269,7 +269,7 @@ SimpleConsoleApp -f net5.0
 dotnet sln .\SimpleSolutionDir\SimpleSolution.sln add .\SimpleSolutionDir\ SimpleConsoleApp
 </code></pre>
 ",
-            Category = categoryCsharpClr,
+            PostCategory = categoryCsharpDotnet,
             User = admin,
         };
         var postConsole = new Post
@@ -380,7 +380,7 @@ Console.WriteLine(${quote}Имя: {pre}person.Name{post}
 </tbody>
 </table>
 ",
-            Category = categoryCsharpClr,
+            PostCategory = categoryCsharpDotnet,
             User = admin,
         };
         //         var postCommands = new Post
@@ -391,7 +391,7 @@ Console.WriteLine(${quote}Имя: {pre}person.Name{post}
         //             Body = @"
 
         // ",
-        //             Category = categoryCsharpClr,
+        //             Category = categoryCsharpDotnet,
         //             User = admin,
         //         };
 

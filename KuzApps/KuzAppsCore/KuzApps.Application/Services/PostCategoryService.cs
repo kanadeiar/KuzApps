@@ -3,21 +3,21 @@
 /// <summary>
 /// Сервис категорий информационных постов
 /// </summary>
-public class CategoryService : ICategoryService
+public class PostCategoryService : IPostCategoryService
 {
-    private readonly ICategoryRepo _categoryRepo;
-    public CategoryService(ICategoryRepo categoryRepo)
+    private readonly IPostCategoryRepo _categoryRepo;
+    public PostCategoryService(IPostCategoryRepo categoryRepo)
     {
         _categoryRepo = categoryRepo;
     }
 
-    public async Task<(IEnumerable<CategoryWebModel>, int?)> GetCategoriesFromBookName(string bookName, int? categoryId = null)
+    public async Task<(IEnumerable<PostCategoryWebModel>, int?)> GetPostCategoriesFromBookName(string bookName, int? categoryId)
     {
         int? selectedCategoryId = null;
 
         var items = await _categoryRepo.GetByBookName(bookName);
         var parents = items.Where(x => x.ParentId is null);
-        var patentsModels = parents.Select(p => new CategoryWebModel
+        var patentsModels = parents.Select(p => new PostCategoryWebModel
         {
             Id = p.Id,
             Name = p.Name,
@@ -31,21 +31,21 @@ public class CategoryService : ICategoryService
             {
                 if (child.Id == categoryId)
                     selectedCategoryId = child.ParentId;
-                parentModel.Children.Add(new CategoryWebModel
+                parentModel.Children.Add(new PostCategoryWebModel
                 {
                     Id = child.Id,
                     Name = child.Name,
                     Order = child.Order,
                     Parent = parentModel,
                     Posts = child.Posts.Select(x => new PostTitleWebModel { Id = x.Id, Title = x.Title }).ToList(),
-                });;
+                }); ;
             }
             parentModel.Children.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
         }
         patentsModels.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
 
-        var models = items.Select(x => new CategoryWebModel 
-        { 
+        var models = items.Select(x => new PostCategoryWebModel
+        {
             Id = x.Id,
             Name = x.Name,
             Order = x.Order,

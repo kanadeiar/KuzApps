@@ -1,9 +1,9 @@
 ﻿namespace KuzApps.Application.WebModels;
 
 /// <summary>
-/// Веб модель категории
+/// Веб модель категории информационных постов
 /// </summary>
-public class CategoryWebModel
+public class PostCategoryWebModel
 {
     /// <summary> 
     /// Идентификатор 
@@ -12,7 +12,7 @@ public class CategoryWebModel
     /// <summary> 
     /// Название 
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
     /// <summary> 
     /// Сортировка 
     /// </summary>
@@ -20,11 +20,11 @@ public class CategoryWebModel
     /// <summary> 
     /// Родительский элемент 
     /// </summary>
-    public CategoryWebModel? Parent { get; set; }
+    public PostCategoryWebModel? Parent { get; set; }
     /// <summary> 
     /// Дети 
     /// </summary>
-    public List<CategoryWebModel> Children { get; set; } = new List<CategoryWebModel>();
+    public List<PostCategoryWebModel> Children { get; set; } = new List<PostCategoryWebModel>();
     /// <summary>
     /// Заголовки информационных постов
     /// </summary>

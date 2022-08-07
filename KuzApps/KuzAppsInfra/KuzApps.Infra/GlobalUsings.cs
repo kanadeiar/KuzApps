@@ -1,8 +1,5 @@
-global using KuzApps.Application.Interfaces.Base;
 global using KuzApps.Application.Interfaces.Repos;
-global using KuzApps.Application.Models;
 global using KuzApps.Domain.Account;
-global using KuzApps.Domain.Base;
 global using KuzApps.Domain.Post;
 global using KuzApps.Infra.Base;
 global using KuzApps.Infra.Data;
@@ -17,3 +14,6 @@ global using Microsoft.Extensions.Logging;
 global using System;
 global using System.Linq;
 global using System.Threading.Tasks;
+global using Kanadeiar.Core.Base;
+global using Kanadeiar.Core.Repos;
+global using KuzApps.Application.Models;

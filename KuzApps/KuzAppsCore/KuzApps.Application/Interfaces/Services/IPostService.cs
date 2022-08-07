@@ -10,5 +10,5 @@ public interface IPostService
     /// </summary>
     /// <param name="id">Идентификатор</param>
     /// <returns>Вебмодель</returns>
-    Task<PostWebModel> GetPostFromId(int id);
+    Task<PostWebModel?> GetPostFromId(int id);
 }

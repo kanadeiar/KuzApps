@@ -5,7 +5,7 @@
 /// </summary>
 [Index(nameof(Name), IsUnique = true, Name = "NameIndex")]
 [Index(nameof(BookName), IsUnique = false, Name = "BookNameIndex")]
-public class Category : Entity
+public class PostCategory : KndEntity<int>
 {
     [Required(ErrorMessage = "Название книги обязательно для категории информационных постов")]
     [StringLength(50, MinimumLength = 1, ErrorMessage = "Название книги должно быть длинной от 1 до 50 символов")]
@@ -33,12 +33,12 @@ public class Category : Entity
     /// Родительская категория
     /// </summary>
     [ForeignKey(nameof(ParentId))]
-    public Category? Parent { get; set; }
+    public PostCategory? Parent { get; set; }
 
     /// <summary>
     /// Список дочерних категорий
     /// в</summary>
-    public ICollection<Category> Childrens { get; set; } = new HashSet<Category>();
+    public ICollection<PostCategory> Childrens { get; set; } = new HashSet<PostCategory>();
 
     public override string ToString() => Name;
 }

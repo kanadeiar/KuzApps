@@ -11,15 +11,19 @@ public class PostService : IPostService
         _postRepo = postRepo;
     }
 
-    public async Task<PostWebModel> GetPostFromId(int id)
+    public async Task<PostWebModel?> GetPostFromId(int id)
     {
         var post = await _postRepo.GetById(id);
-        var model = new PostWebModel
+        if (post is { })
         {
-            Id = post.Id,
-            Title = post.Title,
-            Body = post.Body,
-        };
-        return model;
+            var model = new PostWebModel
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Body = post.Body,
+            };
+            return model;
+        }
+        return null;
     }
 }

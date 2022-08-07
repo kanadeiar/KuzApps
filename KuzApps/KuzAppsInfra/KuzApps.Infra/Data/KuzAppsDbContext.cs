@@ -4,11 +4,12 @@ namespace KuzApps.Infra.Data;
 
 public class KuzAppsDbContext : IdentityDbContext<User, Role, string>
 {
-    public DbSet<Category> Categories => Set<Category>();
-    public DbSet<Comment> Comments => Set<Comment>();
-    public DbSet<Note> Notes => Set<Note>();
     public DbSet<Post> Posts => Set<Post>();
-    public DbSet<Tag> Tags => Set<Tag>();
+    public DbSet<PostCategory> PostCategories => Set<PostCategory>();
+    public DbSet<PostComment> PostComments => Set<PostComment>();
+    public DbSet<PostTag> PostTags => Set<PostTag>();
+    public DbSet<Note> Notes => Set<Note>();
+    public DbSet<NoteComment> NoteComments => Set<NoteComment>();
 
     public KuzAppsDbContext(DbContextOptions<KuzAppsDbContext> options) : base(options)
     { }
@@ -17,8 +18,13 @@ public class KuzAppsDbContext : IdentityDbContext<User, Role, string>
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<Comment>()
+        builder.Entity<PostComment>()
            .HasOne(c => c.Post)
+           .WithMany(p => p.Comments)
+           .OnDelete(DeleteBehavior.ClientNoAction);
+
+        builder.Entity<NoteComment>()
+           .HasOne(c => c.Note)
            .WithMany(p => p.Comments)
            .OnDelete(DeleteBehavior.ClientNoAction);
     }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuzApps.Infra.Migrations
 {
     [DbContext(typeof(KuzAppsDbContext))]
-    [Migration("20220730215724_posts")]
-    partial class posts
+    [Migration("20220807082854_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -145,91 +145,6 @@ namespace KuzApps.Infra.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("KuzApps.Domain.Post.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("BookName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
-
-                    b.HasIndex(new[] { "BookName" }, "BookNameIndex");
-
-                    b.HasIndex(new[] { "Name" }, "NameIndex")
-                        .IsUnique();
-
-                    b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("KuzApps.Domain.Post.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTimeOffset>("Date")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Comments");
-                });
-
             modelBuilder.Entity("KuzApps.Domain.Post.Note", b =>
                 {
                     b.Property<int>("Id")
@@ -261,6 +176,50 @@ namespace KuzApps.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Notes");
+                });
+
+            modelBuilder.Entity("KuzApps.Domain.Post.NoteComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NoteId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NoteId");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("NoteComments");
                 });
 
             modelBuilder.Entity("KuzApps.Domain.Post.Post", b =>
@@ -307,7 +266,92 @@ namespace KuzApps.Infra.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("KuzApps.Domain.Post.Tag", b =>
+            modelBuilder.Entity("KuzApps.Domain.Post.PostCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("BookName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex(new[] { "BookName" }, "BookNameIndex");
+
+                    b.HasIndex(new[] { "Name" }, "NameIndex")
+                        .IsUnique();
+
+                    b.ToTable("PostCategories");
+                });
+
+            modelBuilder.Entity("KuzApps.Domain.Post.PostComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PostComments");
+                });
+
+            modelBuilder.Entity("KuzApps.Domain.Post.PostTag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -327,7 +371,7 @@ namespace KuzApps.Infra.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("PostTags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -436,7 +480,7 @@ namespace KuzApps.Infra.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PostTag", b =>
+            modelBuilder.Entity("PostPostTag", b =>
                 {
                     b.Property<int>("PostsId")
                         .HasColumnType("int");
@@ -448,21 +492,65 @@ namespace KuzApps.Infra.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("PostTag");
+                    b.ToTable("PostPostTag");
                 });
 
-            modelBuilder.Entity("KuzApps.Domain.Post.Category", b =>
+            modelBuilder.Entity("KuzApps.Domain.Post.NoteComment", b =>
                 {
-                    b.HasOne("KuzApps.Domain.Post.Category", "Parent")
+                    b.HasOne("KuzApps.Domain.Post.Note", "Note")
+                        .WithMany("Comments")
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.ClientNoAction)
+                        .IsRequired();
+
+                    b.HasOne("KuzApps.Domain.Post.NoteComment", "Parent")
+                        .WithMany("Childrens")
+                        .HasForeignKey("ParentId");
+
+                    b.HasOne("KuzApps.Domain.Account.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Note");
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("KuzApps.Domain.Post.Post", b =>
+                {
+                    b.HasOne("KuzApps.Domain.Post.PostCategory", "PostCategory")
+                        .WithMany("Posts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KuzApps.Domain.Account.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PostCategory");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("KuzApps.Domain.Post.PostCategory", b =>
+                {
+                    b.HasOne("KuzApps.Domain.Post.PostCategory", "Parent")
                         .WithMany("Childrens")
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("KuzApps.Domain.Post.Comment", b =>
+            modelBuilder.Entity("KuzApps.Domain.Post.PostComment", b =>
                 {
-                    b.HasOne("KuzApps.Domain.Post.Comment", "Parent")
+                    b.HasOne("KuzApps.Domain.Post.PostComment", "Parent")
                         .WithMany("Childrens")
                         .HasForeignKey("ParentId");
 
@@ -481,25 +569,6 @@ namespace KuzApps.Infra.Migrations
                     b.Navigation("Parent");
 
                     b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("KuzApps.Domain.Post.Post", b =>
-                {
-                    b.HasOne("KuzApps.Domain.Post.Category", "Category")
-                        .WithMany("Posts")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KuzApps.Domain.Account.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });
@@ -555,7 +624,7 @@ namespace KuzApps.Infra.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PostTag", b =>
+            modelBuilder.Entity("PostPostTag", b =>
                 {
                     b.HasOne("KuzApps.Domain.Post.Post", null)
                         .WithMany()
@@ -563,21 +632,19 @@ namespace KuzApps.Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KuzApps.Domain.Post.Tag", null)
+                    b.HasOne("KuzApps.Domain.Post.PostTag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("KuzApps.Domain.Post.Category", b =>
+            modelBuilder.Entity("KuzApps.Domain.Post.Note", b =>
                 {
-                    b.Navigation("Childrens");
-
-                    b.Navigation("Posts");
+                    b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("KuzApps.Domain.Post.Comment", b =>
+            modelBuilder.Entity("KuzApps.Domain.Post.NoteComment", b =>
                 {
                     b.Navigation("Childrens");
                 });
@@ -585,6 +652,18 @@ namespace KuzApps.Infra.Migrations
             modelBuilder.Entity("KuzApps.Domain.Post.Post", b =>
                 {
                     b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("KuzApps.Domain.Post.PostCategory", b =>
+                {
+                    b.Navigation("Childrens");
+
+                    b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("KuzApps.Domain.Post.PostComment", b =>
+                {
+                    b.Navigation("Childrens");
                 });
 #pragma warning restore 612, 618
         }

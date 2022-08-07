@@ -3,7 +3,7 @@
 /// <summary>
 /// Репозиторий информационных постов
 /// </summary>
-public class PostRepo : DbRepo<Post>, IPostRepo
+public class PostRepo : DbRepo<Post, int>, IPostRepo
 {
     public PostRepo(DbContext context, ILogger<DbRepo<Post, int>> logger) : base(context, logger)
     {

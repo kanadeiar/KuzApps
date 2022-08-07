@@ -34,11 +34,12 @@ public static class Extensions
     /// <returns></returns>
     public static IServiceCollection InfraMyRepos(this IServiceCollection services)
     {
-        services.AddScoped<ICategoryRepo, CategoryRepo>();
-        services.AddScoped<ICommentRepo, CommentRepo>();
-        services.AddScoped<INoteRepo, NoteRepo>();
         services.AddScoped<IPostRepo, PostRepo>();
-        services.AddScoped<ITagRepo, TagRepo>();
+        services.AddScoped<IPostCategoryRepo, PostCategoryRepo>();
+        services.AddScoped<IPostCommentRepo, PostCommentRepo>();
+        services.AddScoped<IPostTagRepo, PostTagRepo>();
+        services.AddScoped<INoteRepo, NoteRepo>();
+        services.AddScoped<INoteCommentRepo, NoteCommentRepo>();
 
         return services;
     }

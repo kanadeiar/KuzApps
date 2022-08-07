@@ -12,5 +12,5 @@ public class PostTitleWebModel
     /// <summary> 
     /// Заголовок 
     /// </summary>
-    public string Title { get; set; }
+    public string Title { get; set; } = default!;
 }

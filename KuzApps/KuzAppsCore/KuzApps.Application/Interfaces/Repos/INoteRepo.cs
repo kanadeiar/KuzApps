@@ -3,6 +3,6 @@
 /// <summary>
 /// Репозиторий новостных заметок
 /// </summary>
-public interface INoteRepo : IRepo<Note>
+public interface INoteRepo : IKndRepo<Note, int>
 {
 }

@@ -3,13 +3,13 @@
 /// <summary>
 /// Репозиторий категорий
 /// </summary>
-public class CategoryRepo : DbRepo<Category>, ICategoryRepo
+public class PostCategoryRepo : DbRepo<PostCategory, int>, IPostCategoryRepo
 {
-    public CategoryRepo(DbContext context, ILogger<DbRepo<Category, int>> logger) : base(context, logger)
+    public PostCategoryRepo(DbContext context, ILogger<DbRepo<PostCategory, int>> logger) : base(context, logger)
     {
     }
 
-    public async Task<IEnumerable<Category>> GetByBookName(string bookName, CancellationToken cancel = default)
+    public async Task<IEnumerable<PostCategory>> GetByBookName(string bookName, CancellationToken cancel = default)
     {
         var items = await Set
             .Where(x => x.BookName.Equals(bookName))

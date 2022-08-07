@@ -3,6 +3,6 @@
 /// <summary>
 /// Репозиторий информационных постов
 /// </summary>
-public interface IPostRepo : IRepo<Post> 
+public interface IPostRepo : IKndRepo<Post, int>
 {
 }

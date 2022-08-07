@@ -3,7 +3,7 @@
 /// <summary>
 /// Сервис категорий информационных постов
 /// </summary>
-public interface ICategoryService
+public interface IPostCategoryService
 {
     /// <summary>
     /// Получить категории информационных постов по имени книги
@@ -11,5 +11,5 @@ public interface ICategoryService
     /// <param name="bookName">мия книги</param>
     /// <param name="categoryId">идентификатор выбранной категории</param>
     /// <returns>Категории, Идентификатор выбранной</returns>
-    Task<(IEnumerable<CategoryWebModel>, int?)> GetCategoriesFromBookName(string bookName, int? categoryId = null);
+    Task<(IEnumerable<PostCategoryWebModel>, int?)> GetPostCategoriesFromBookName(string bookName, int? categoryId = null);
 }

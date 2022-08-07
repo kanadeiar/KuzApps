@@ -1,13 +1,13 @@
 ﻿namespace KuzApps.Domain.Post;
 
 /// <summary>
-/// Тег
+/// Тег информационного поста
 /// </summary>
-public class Tag : Entity
+public class PostTag : KndEntity<int>
 {
     [Required(ErrorMessage = "Имя тега обязательно для тега постов")]
     [StringLength(200, MinimumLength = 1, ErrorMessage = "Имя тега должно быть длинной от 1 до 200 символов")]
-    public string Name { get; set; } = null!;
+    public string Name { get; set; } = default!;
 
     /// <summary> 
     /// Данные по информационным постам, относящихся к тегу

@@ -6,9 +6,9 @@ public class SharpController : Controller
     const string SharpDesktopBook = "csharpdesktop";
     const string SharpWebBook = "csharpweb";
 
-    private readonly ICategoryService _categoryService;
+    private readonly IPostCategoryService _categoryService;
     private readonly IPostService _postService;
-    public SharpController(ICategoryService categoryService, IPostService postService)
+    public SharpController(IPostCategoryService categoryService, IPostService postService)
     {
         _categoryService = categoryService;
         _postService = postService;
@@ -21,19 +21,19 @@ public class SharpController : Controller
 
     public async Task<IActionResult> General()
     {
-        var model = await _categoryService.GetCategoriesFromBookName(SharpDotNetBook);
+        var model = await _categoryService.GetPostCategoriesFromBookName(SharpDotNetBook);
         return View(model.Item1);
     }
 
     public async Task<IActionResult> Desktop()
     {
-        var model = await _categoryService.GetCategoriesFromBookName(SharpDesktopBook);
+        var model = await _categoryService.GetPostCategoriesFromBookName(SharpDesktopBook);
         return View(model.Item1);
     }
 
     public async Task<IActionResult> Web()
     {
-        var model = await _categoryService.GetCategoriesFromBookName(SharpWebBook);
+        var model = await _categoryService.GetPostCategoriesFromBookName(SharpWebBook);
         return View(model.Item1);
     }
 

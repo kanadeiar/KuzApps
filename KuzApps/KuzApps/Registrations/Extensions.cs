@@ -48,7 +48,7 @@ public static class Extensions
     public static IServiceCollection MyAddServices(this IServiceCollection services)
     {
         services.AddScoped<IAccountService, AccountService>();
-        services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IPostCategoryService, PostCategoryService>();
         services.AddScoped<IPostService, PostService>();
 
         return services;
