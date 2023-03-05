@@ -1,0 +1,22 @@
+<div class="border-1 shadow rounded bg-light p-1">
+    <h4 class="text-center text-white bg-success p-2 rounded">Управление аккаунтом</h4>
+    <div class="accordion accordion-flush" id="accordionInfo">
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a asp-controller="Account" asp-action="Index" class="nav-link text-dark">
+                    Информация по аккаунту
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="Account" asp-action="Edit" class="nav-link text-dark">
+                    Редактирование профиля
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="Account" asp-action="Password" class="nav-link text-dark">
+                    Смена пароля
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,1 +1,12 @@
-﻿global using Microsoft.AspNetCore.Mvc;
+﻿global using KuzApps.Application.Interfaces.Services;
+global using KuzApps.Application.Services;
+global using KuzApps.Application.WebModels;
+global using KuzApps.Domain.Account;
+global using KuzApps.Infra.Data;
+global using KuzApps.Infra.Registrations;
+global using KuzApps.Registrations;
+global using KuzApps.Services;
+global using Microsoft.AspNetCore.Authentication.Cookies;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Mvc;

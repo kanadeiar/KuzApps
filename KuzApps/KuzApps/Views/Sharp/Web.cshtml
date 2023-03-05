@@ -1,0 +1,19 @@
+﻿@model IEnumerable<PostCategoryWebModel>
+@{
+    ViewBag.Title = "Веб приложения";
+}
+
+<div class="row">
+    <div class="col-md-4 col-lg-3 mb-1">
+        <partial name="Partial/_LeftSidebarPartial" />
+    </div>
+    <div class="col-md-8 col-lg-9 mb-1">
+        <div class="border-1 bg-light shadow rounded-1 p-2">
+            <h1>@ViewBag.Title</h1>
+
+            <p>Раздел информации по разработке веб приложений.</p>
+
+            <partial name="Partial/TitlesPartial" model="Model" />
+        </div>
+    </div>
+</div>

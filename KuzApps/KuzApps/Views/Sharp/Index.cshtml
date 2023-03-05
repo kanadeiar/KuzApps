@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Программирование";
+}
+
+<div class="row">
+    <div class="col-md-4 col-lg-3 mb-1">
+        <partial name="Partial/_LeftSidebarPartial" />
+    </div>
+    <div class="col-md-8 col-lg-9 mb-1">
+        <div class="border-1 bg-light shadow rounded-1 p-2">
+            <h1>@ViewBag.Title</h1>
+
+            <p>Данный раздел посвящен языку программирования C# и платформе .NET.</p>
+
+            <a asp-controller="sharp" asp-action="general">
+                <p class="mb-0"><strong>Общее .NET и C#</strong></p>
+            </a>
+            <p>Общая информация по платформе разработки приложений .NET и языку программирования C#.</p>
+
+            <a asp-controller="sharp" asp-action="desktop">
+                <p class="mb-0"><strong>Настольные приложения</strong></p>
+            </a>
+            <p>Информация по разработке настольных приложений на языке программирования C#.</p>
+
+            <a asp-controller="sharp" asp-action="web">
+                <p class="mb-0"><strong>Веб приложения</strong></p>
+            </a>
+            <p>Информация по веб-разработке сайтов и разработке зазличных веб приложений.</p>
+
+        </div>
+    </div>
+</div>
